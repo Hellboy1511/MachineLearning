@@ -75,9 +75,19 @@ ggplot(Train_data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexio
 ggplot(Train_data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
 
 ```
+Analizamos la variable su_attempted
+```{r EDA2, echo=TRUE}
 
+p <- Train_data %>% mutate(log10_su_attempted = log10(su_attempted+0.5)) %>%
+  select(class, log10_su_attempted) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_su_attempted, colour=class)) +
+    geom_density(lwd=2)
+p
 
-
+ggplot(Train_data, aes(su_attempted)) + geom_bar()+ ggtitle("x")
+ggplot(Train_data, aes(su_attempted,fill=class))+ geom_bar()+ ggtitle("x")
+```
 # Modelos de Aprendizaje Máquina
 
 # Resultados
