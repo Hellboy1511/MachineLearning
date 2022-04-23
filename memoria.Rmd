@@ -53,7 +53,7 @@ Test_data <-  read.csv("./datos/Test_data.csv")
 
 Vamos a ver los primeros datos:
 ```{r datos_inicio, echo=TRUE}
-head(Train_data)
+Train_data
 ```
 
 
@@ -75,7 +75,8 @@ ggplot(Train_data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexio
 ggplot(Train_data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
 
 ```
-Analizamos la variable su_attempted
+
+Analizamos la variable su_attempted. Irrelevante
 ```{r EDA2, echo=TRUE}
 
 p <- Train_data %>% mutate(log10_su_attempted = log10(su_attempted+0.5)) %>%
@@ -85,9 +86,320 @@ p <- Train_data %>% mutate(log10_su_attempted = log10(su_attempted+0.5)) %>%
     geom_density(lwd=2)
 p
 
-ggplot(Train_data, aes(su_attempted)) + geom_bar()+ ggtitle("x")
-ggplot(Train_data, aes(su_attempted,fill=class))+ geom_bar()+ ggtitle("x")
+ggplot(Train_data, aes(su_attempted)) + geom_bar()+ ggtitle("Número de intentos de ejecución del comando 'sudo'")
+ggplot(Train_data, aes(su_attempted,fill=class))+ geom_bar()+ ggtitle("Anomalías por número de intentos de ejecución del comando 'sudo'")
 ```
+Análisis variable duration.
+```{r EDA3, echo=TRUE}
+p <- Train_data %>% mutate(log10_duration = log10(duration+0.5)) %>%
+  select(class, log10_duration) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_duration, colour=class)) +
+    geom_density(lwd=2)
+p
+
+
+p1 <- ggplot(data = Train_data, aes(x = log10(duration+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(duration+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+
+```
+Análisis por protocol_type, podría ser relevante
+```{r EDA4, echo=TRUE}
+p <- Train_data %>%
+  select(class, protocol_type) %>%
+  na.omit() %>%
+  ggplot(aes(x=protocol_type, colour=class)) +
+    geom_density(lwd=2)
+p
+
+ggplot(Train_data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexiones por protocolo de red")
+ggplot(Train_data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
+```
+Análisis de service TODO
+```{r EDA4, echo=TRUE}
+
+p <- Train_data %>%
+  select(class, service) %>%
+  na.omit() %>%
+  ggplot(aes(x=service, colour=class)) +
+    geom_density(lwd=2)
+p
+
+ggplot(Train_data, aes(service)) + geom_bar()+ ggtitle("x")
+ggplot(Train_data, aes(service,fill=class))+ geom_bar()+ ggtitle("x")
+```
+
+Análisis de flag, podría ser relevante
+```{r EDA4, echo=TRUE}
+p <- Train_data %>%
+  select(class, flag) %>%
+  na.omit() %>%
+  ggplot(aes(x=flag, colour=class)) +
+    geom_density(lwd=2)
+p
+
+ggplot(Train_data, aes(flag)) + geom_bar()+ ggtitle("x")
+ggplot(Train_data, aes(flag,fill=class))+ geom_bar()+ ggtitle("x")
+```
+
+Análisis src_bytes. No parece relevante
+```{r EDA5, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_src_bytes = log10(src_bytes+0.5)) %>%
+  select(class, log10_src_bytes) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_src_bytes, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(src_bytes+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(src_bytes+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+
+```
+Análisis de dst_byte. No parece relevante
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_dst_bytes = log10(dst_bytes+0.5)) %>%
+  select(class, log10_dst_bytes) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_dst_bytes, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(dst_bytes+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(dst_bytes+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+Análisis de land. Irrelevante.
+
+```{r EDA7, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_land = log10(land+0.5)) %>%
+  select(class, log10_land) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_land, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(land+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(land+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+
+```
+
+Análisis de wrong_fragment. Podría ser relevante.
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_wrong_fragment = log10(wrong_fragment+0.5)) %>%
+  select(class, log10_wrong_fragment) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_wrong_fragment, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(wrong_fragment+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(wrong_fragment+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+Análisis de urgent.Irrelevante
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_urgent = log10(urgent+0.5)) %>%
+  select(class, log10_urgent) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_urgent, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(urgent+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(urgent+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+Análisis de hot. Irrelevante
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_hot = log10(hot+0.5)) %>%
+  select(class, log10_hot) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_hot, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(hot+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(hot+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+Análisis de num_failed_logins. Irrelevante 
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_num_failed_logins = log10(num_failed_logins+0.5)) %>%
+  select(class, log10_num_failed_logins) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_num_failed_logins, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(num_failed_logins+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(num_failed_logins+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+Análisis de logged_in. Irrelevante
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% 
+  select(class, logged_in) %>%
+  na.omit() %>%
+  ggplot(aes(x=logged_in, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = logged_in, fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = logged_in, color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+Análisis de num_compromised. Parece irrelevante. 
+```{r EDA6, echo=TRUE}
+
+p2 <- Train_data %>% mutate(log10_num_compromised = log10(num_compromised+0.5)) %>%
+  select(class, log10_num_compromised) %>%
+  na.omit() %>%
+  ggplot(aes(x=log10_num_compromised, colour=class)) +
+    geom_density(lwd=2)
+p2
+
+p1 <- ggplot(data = Train_data, aes(x = log10(num_compromised+0.5), fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = Train_data, aes(x = class, y = log10(num_compromised+0.5), color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+Análisis de root_shell. Se ha  intentado 
+```{r EDA6, echo=TRUE}
+datos <- Train_data %>% mutate(root_shell_2 = case_when(root_shell == 0 ~ "Sí",
+root_shell == 1 ~ "No"))
+datos$root_shell_2 <- as.factor(datos$root_shell_2)
+
+p1 <- ggplot(data = datos, aes(x = root_shell_2, fill = class)) +
+      geom_density(alpha = 0.5) +
+      scale_fill_manual(values = c("gray50", "orangered2")) +
+      geom_rug(aes(color = class), alpha = 0.5) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p2 <- ggplot(data = datos, aes(x = class, y = root_shell_2, color = class)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha = 0.3, width = 0.15) +
+      scale_color_manual(values = c("gray50", "orangered2")) +
+      theme_bw()
+p1
+p2
+```
+
+
 # Modelos de Aprendizaje Máquina
 
 # Resultados
