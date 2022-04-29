@@ -94,13 +94,6 @@ p2
 ```
 Análisis por protocol_type, podría ser irrelevante
 ```{r EDA2, echo=TRUE}
-p <- data %>%
-  select(class, protocol_type) %>%
-  na.omit() %>%
-  ggplot(aes(x=protocol_type, colour=class)) +
-    geom_density(lwd=2)
-p
-
 ggplot(data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexiones por protocolo de red")
 ggplot(data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
 ```
@@ -208,7 +201,7 @@ p2
 ```
 
 Análisis de wrong_fragment. Podría ser relevante.
-```{r EDA10, echo=TRUE}
+```{r EDA9, echo=TRUE}
 
 p2 <- data %>% mutate(log10_wrong_fragment = log10(wrong_fragment+0.5)) %>%
   select(class, log10_wrong_fragment) %>%
@@ -233,7 +226,7 @@ p2
 ```
 
 Análisis de urgent.Irrelevante
-```{r EDA11, echo=TRUE}
+```{r EDA10, echo=TRUE}
 
 p2 <- data %>% mutate(log10_urgent = log10(urgent+0.5)) %>%
   select(class, log10_urgent) %>%
@@ -257,7 +250,7 @@ p1
 p2
 ```
 Análisis de hot. Irrelevante
-```{r EDA12, echo=TRUE}
+```{r EDA11, echo=TRUE}
 
 p2 <- data %>% mutate(log10_hot = log10(hot+0.5)) %>%
   select(class, log10_hot) %>%
@@ -282,7 +275,7 @@ p2
 ```
 
 Análisis de num_failed_logins. Irrelevante 
-```{r EDA13, echo=TRUE}
+```{r EDA12, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_failed_logins = log10(num_failed_logins+0.5)) %>%
   select(class, log10_num_failed_logins) %>%
@@ -307,7 +300,7 @@ p2
 ```
 
 Análisis de logged_in. Podría ser relevante.
-```{r EDA14, echo=TRUE}
+```{r EDA13, echo=TRUE}
 
 p2 <- data %>% 
   select(class, logged_in) %>%
@@ -332,7 +325,7 @@ p2
 ```
 
 Análisis de num_compromised. Parece irrelevante. 
-```{r EDA15, echo=TRUE}
+```{r EDA14, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_compromised = log10(num_compromised+0.5)) %>%
   select(class, log10_num_compromised) %>%
@@ -357,7 +350,7 @@ p2
 ```
 
 Análisis de root_shell. Parece irrelevante. 
-```{r EDA16, echo=TRUE}
+```{r EDA15, echo=TRUE}
 datos <- data %>% mutate(root_shell_2 = case_when(root_shell == 0 ~ "Sí",
 root_shell == 1 ~ "No"))
 datos$root_shell_2 <- as.factor(datos$root_shell_2)
@@ -377,7 +370,7 @@ p1
 p2
 ```
 Analizamos la variable su_attempted. Irrelevante
-```{r EDA1, echo=TRUE}
+```{r EDA16, echo=TRUE}
 
 p <- data %>% mutate(log10_su_attempted = log10(su_attempted+0.5)) %>%
   select(class, log10_su_attempted) %>%
@@ -416,7 +409,7 @@ p2
 ```
 
 Análisis de num_file_creations. Irrelevante
-```{r EDA17, echo=TRUE}
+```{r EDA18, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_file_creations = log10(num_file_creations+0.5)) %>%
   select(class, log10_num_file_creations) %>%
@@ -441,7 +434,7 @@ p2
 ```
 
 Análisis de num_shells. Irrelevante
-```{r EDA18, echo=TRUE}
+```{r EDA19, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_shells = num_shells) %>%
   select(class, log10_num_shells) %>%
@@ -466,7 +459,7 @@ p2
 ```
 
 Análisis de num_access_files. Irrelevante
-```{r EDA19, echo=TRUE}
+```{r EDA20, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_access_files = num_access_files) %>%
   select(class, log10_num_access_files) %>%
@@ -491,7 +484,7 @@ p2
 ```
 
 Análisis de num_outbound_cmds. Irrelevante
-```{r EDA20, echo=TRUE}
+```{r EDA21, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_outbound_cmds = log10(num_outbound_cmds+0.5)) %>%
   select(class, log10_num_outbound_cmds) %>%
@@ -516,7 +509,7 @@ p2
 ```
 
 Análisis de is_host_login. Irrelevante
-```{r EDA21, echo=TRUE}
+```{r EDA22, echo=TRUE}
 
 p2 <- data %>% mutate(log10_is_host_login = is_host_login) %>%
   select(class, log10_is_host_login) %>%
@@ -541,7 +534,7 @@ p2
 ```
 
 Análisis de is_guest_login. Irrelevante
-```{r EDA22, echo=TRUE}
+```{r EDA23, echo=TRUE}
 
 p2 <- data %>% mutate(log10_is_guest_login = is_guest_login) %>%
   select(class, log10_is_guest_login) %>%
@@ -566,7 +559,7 @@ p2
 ```
 
 Análisis de count. Parece relevante
-```{r EDA22, echo=TRUE}
+```{r EDA24, echo=TRUE}
 
 p2 <- data %>% mutate(log10_count = log10(count+0.5)) %>%
   select(class, log10_count) %>%
@@ -591,7 +584,7 @@ p2
 ```
 
 Análisis de srv_count. Parece relevante.
-```{r EDA23, echo=TRUE}
+```{r EDA25, echo=TRUE}
 
 p2 <- data %>% mutate(log10_srv_count = log10(srv_count+0.5)) %>%
   select(class, log10_srv_count) %>%
@@ -616,7 +609,7 @@ p2
 ```
 
 Análisis de serror_rate. Podría ser relevante.
-```{r EDA24, echo=TRUE}
+```{r EDA26, echo=TRUE}
 
 p2 <- data %>% mutate(log10_serror_rate = log10(serror_rate+0.5)) %>%
   select(class, log10_serror_rate) %>%
@@ -641,7 +634,7 @@ p2
 ```
 
 Análisis de srv_serror_rate. Podría ser relevante.
-```{r EDA25, echo=TRUE}
+```{r EDA27, echo=TRUE}
 
 p2 <- data %>% mutate(log10_srv_serror_rate = log10(srv_serror_rate+0.5)) %>%
   select(class, log10_srv_serror_rate) %>%
@@ -666,7 +659,7 @@ p2
 ```
 
 Análisis de rerror_rate. Parece irrelevante
-```{r EDA26, echo=TRUE}
+```{r EDA28, echo=TRUE}
 
 p2 <- data %>% mutate(log10_rerror_rate = log10(rerror_rate+0.5)) %>%
   select(class, log10_rerror_rate) %>%
@@ -691,7 +684,7 @@ p2
 ```
 
 Análisis de srv_rerror_rate. Parece irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA29, echo=TRUE}
 
 p2 <- data %>% mutate(log10_srv_rerror_rate = log10(srv_rerror_rate+0.5)) %>%
   select(class, log10_srv_rerror_rate) %>%
@@ -716,7 +709,7 @@ p2
 ```
 
 Análisis de same_srv_rate. Parece relevante
-```{r EDA26, echo=TRUE}
+```{r EDA30, echo=TRUE}
 
 p2 <- data %>% mutate(log10_same_srv_rate = log10(same_srv_rate+0.5)) %>%
   select(class, log10_same_srv_rate) %>%
@@ -741,7 +734,7 @@ p2
 ```
 
 Análisis de diff_srv_rate. Parece relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA31, echo=TRUE}
 
 p2 <- data %>% mutate(log10_diff_srv_rate = log10(diff_srv_rate+0.5)) %>%
   select(class, log10_diff_srv_rate) %>%
@@ -766,7 +759,7 @@ p2
 ```
 
 Análisis de srv_diff_host_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA32, echo=TRUE}
 
 p2 <- data %>% mutate(log10_srv_diff_host_rate = log10(srv_diff_host_rate+0.5)) %>%
   select(class, log10_srv_diff_host_rate) %>%
@@ -791,7 +784,7 @@ p2
 ```
 
 Análisis de dst_host_count. Podría ser relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA33, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_count = dst_host_count) %>%
   select(class, log10_dst_host_count) %>%
@@ -816,7 +809,7 @@ p2
 ```
 
 Análisis de dst_host_srv_count. Relevante
-```{r EDA26, echo=TRUE}
+```{r EDA34, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_count = dst_host_srv_count) %>%
   select(class, log10_dst_host_srv_count) %>%
@@ -841,7 +834,7 @@ p2
 ```
 
 Análisis de dst_host_same_srv_rate. Relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA35, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_same_srv_rate = dst_host_same_srv_rate) %>%
   select(class, log10_dst_host_same_srv_rate) %>%
@@ -866,7 +859,7 @@ p2
 ```
 
 Análisis de dst_host_diff_srv_rate. Podría ser relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA36, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_diff_srv_rate = dst_host_diff_srv_rate) %>%
   select(class, log10_dst_host_diff_srv_rate) %>%
@@ -891,7 +884,7 @@ p2
 ```
 
 Análisis de dst_host_same_src_port_rate. Irrelevante
-```{r EDA26, echo=TRUE}
+```{r EDA37, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
   select(class, log10_dst_host_same_src_port_rate) %>%
@@ -916,7 +909,7 @@ p2
 ```
 
 Análisis de dst_host_srv_diff_host_rate. Irrelevante
-```{r EDA26, echo=TRUE}
+```{r EDA38, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
   select(class, log10_dst_host_srv_diff_host_rate) %>%
@@ -941,7 +934,7 @@ p2
 ```
 
 Análisis de dst_host_serror_rate. Podría ser relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA39, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
   select(class, log10_dst_host_serror_rate) %>%
@@ -966,7 +959,7 @@ p2
 ```
 
 Análisis de dst_host_srv_serror_rate. Podría ser relevante
-```{r EDA26, echo=TRUE}
+```{r EDA40, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
   select(class, log10_dst_host_srv_serror_rate) %>%
@@ -991,7 +984,7 @@ p2
 ```
 
 Análisis de dst_host_rerror_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA41, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_rerror_rate = dst_host_rerror_rate) %>%
   select(class, log10_dst_host_rerror_rate) %>%
@@ -1016,7 +1009,7 @@ p2
 ```
 
 Análisis de dst_host_same_src_port_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA42, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
   select(class, log10_dst_host_same_src_port_rate) %>%
@@ -1041,7 +1034,7 @@ p2
 ```
 
 Análisis de dst_host_srv_diff_host_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA43, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
   select(class, log10_dst_host_srv_diff_host_rate) %>%
@@ -1066,7 +1059,7 @@ p2
 ```
 
 Análisis de dst_host_serror_rate. Podría ser relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA44, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
   select(class, log10_dst_host_serror_rate) %>%
@@ -1091,7 +1084,7 @@ p2
 ```
 
 Análisis de dst_host_srv_serror_rate. Podría ser relevante.
-```{r EDA26, echo=TRUE}
+```{r EDA45, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
   select(class, log10_dst_host_srv_serror_rate) %>%
@@ -1116,7 +1109,7 @@ p2
 ```
 
 Análisis de dst_host_rerror_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA46, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_rerror_rate = dst_host_rerror_rate) %>%
   select(class, log10_dst_host_rerror_rate) %>%
@@ -1141,7 +1134,7 @@ p2
 ```
 
 Análisis de dst_host_srv_rerror_rate. Irrelevante.
-```{r EDA26, echo=TRUE}
+```{r EDA47, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_rerror_rate = dst_host_srv_rerror_rate) %>%
   select(class, log10_dst_host_srv_rerror_rate) %>%
