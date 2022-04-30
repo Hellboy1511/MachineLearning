@@ -53,8 +53,7 @@ Test_data <-  read.csv("./datos/Test_data.csv")
 
 Vamos a ver los primeros datos:
 ```{r datos_inicio, echo=TRUE}
-data <- Train_data[1:(nrow(Train_data)/2), ]
-data
+data <- Train_data
 ```
 
 
@@ -65,7 +64,7 @@ En primer lugar estudiamos las variables de la base de datos:
 
 
 
-Análisis variable duration. Parece irrelevante
+Análisis variable duration. Relevante
 ```{r EDA1, echo=TRUE}
 
 
@@ -92,12 +91,12 @@ p1
 p2
 
 ```
-Análisis por protocol_type, podría ser irrelevante
+Análisis por protocol_type. Relevante
 ```{r EDA2, echo=TRUE}
 ggplot(data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexiones por protocolo de red")
 ggplot(data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
 ```
-Análisis de service. TODO. Hay que transformar el gráfico para poder leer las variables.
+Análisis de service. Relevante
 ```{r EDA3, echo=TRUE}
 
 p <- data %>%
@@ -111,7 +110,7 @@ ggplot(data, aes(service)) + geom_bar()+ ggtitle("x") + coord_flip()
 ggplot(data, aes(service,fill=class))+ geom_bar()+ ggtitle("x")
 ```
 
-Análisis de flag, podría ser relevante
+Análisis de flag. Relevante
 ```{r EDA4, echo=TRUE}
 p <- data %>%
   select(class, flag) %>%
@@ -124,7 +123,7 @@ ggplot(data, aes(flag)) + geom_bar()+ ggtitle("x")
 ggplot(data, aes(flag,fill=class))+ geom_bar()+ ggtitle("x")
 ```
 
-Análisis src_bytes. Parece irrelevante
+Análisis src_bytes. Relevante
 ```{r EDA5, echo=TRUE}
 
 p <- data %>% mutate(log10_src_bytes = log10(src_bytes+0.5)) %>%
@@ -149,7 +148,7 @@ p1
 p2
 
 ```
-Análisis de dst_byte. Parece irrelevante
+Análisis de dst_byte. Relevante
 ```{r EDA6, echo=TRUE}
 
 p <- data %>% mutate(log10_dst_bytes = log10(dst_bytes+0.5)) %>%
@@ -228,20 +227,20 @@ p2
 Análisis de urgent.Irrelevante
 ```{r EDA10, echo=TRUE}
 
-p2 <- data %>% mutate(log10_urgent = log10(urgent+0.5)) %>%
+p2 <- data %>% mutate(log10_urgent = urgent) %>%
   select(class, log10_urgent) %>%
   na.omit() %>%
   ggplot(aes(x=log10_urgent, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = log10(urgent+0.5), fill = class)) +
+p1 <- ggplot(data = data, aes(x = urgent, fill = class)) +
       geom_density(alpha = 0.5) +
       scale_fill_manual(values = c("gray50", "orangered2")) +
       geom_rug(aes(color = class), alpha = 0.5) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = log10(urgent+0.5), color = class)) +
+p2 <- ggplot(data = data, aes(x = class, y = urgent, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
@@ -299,7 +298,7 @@ p1
 p2
 ```
 
-Análisis de logged_in. Podría ser relevante.
+Análisis de logged_in. Relevante.
 ```{r EDA13, echo=TRUE}
 
 p2 <- data %>% 
@@ -324,7 +323,7 @@ p1
 p2
 ```
 
-Análisis de num_compromised. Parece irrelevante. 
+Análisis de num_compromised. Irrelevante. 
 ```{r EDA14, echo=TRUE}
 
 p2 <- data %>% mutate(log10_num_compromised = log10(num_compromised+0.5)) %>%
@@ -349,7 +348,7 @@ p1
 p2
 ```
 
-Análisis de root_shell. Parece irrelevante. 
+Análisis de root_shell. Irrelevante. 
 ```{r EDA15, echo=TRUE}
 datos <- data %>% mutate(root_shell_2 = case_when(root_shell == 0 ~ "Sí",
 root_shell == 1 ~ "No"))
@@ -372,7 +371,7 @@ p2
 Analizamos la variable su_attempted. Irrelevante
 ```{r EDA16, echo=TRUE}
 
-p <- data %>% mutate(log10_su_attempted = log10(su_attempted+0.5)) %>%
+p <- data %>% mutate(log10_su_attempted = su_attempted) %>%
   select(class, log10_su_attempted) %>%
   na.omit() %>%
   ggplot(aes(x=log10_su_attempted, colour=class)) +
@@ -486,20 +485,20 @@ p2
 Análisis de num_outbound_cmds. Irrelevante
 ```{r EDA21, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_outbound_cmds = log10(num_outbound_cmds+0.5)) %>%
+p2 <- data %>% mutate(log10_num_outbound_cmds = num_outbound_cmds) %>%
   select(class, log10_num_outbound_cmds) %>%
   na.omit() %>%
   ggplot(aes(x=log10_num_outbound_cmds, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = log10(num_outbound_cmds+0.5), fill = class)) +
+p1 <- ggplot(data = data, aes(x = num_outbound_cmds, fill = class)) +
       geom_density(alpha = 0.5) +
       scale_fill_manual(values = c("gray50", "orangered2")) +
       geom_rug(aes(color = class), alpha = 0.5) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = log10(num_outbound_cmds+0.5), color = class)) +
+p2 <- ggplot(data = data, aes(x = class, y = num_outbound_cmds, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
@@ -558,7 +557,7 @@ p1
 p2
 ```
 
-Análisis de count. Parece relevante
+Análisis de count. Relevante
 ```{r EDA24, echo=TRUE}
 
 p2 <- data %>% mutate(log10_count = log10(count+0.5)) %>%
@@ -608,23 +607,23 @@ p1
 p2
 ```
 
-Análisis de serror_rate. Podría ser relevante.
+Análisis de serror_rate. Relevante.
 ```{r EDA26, echo=TRUE}
 
-p2 <- data %>% mutate(log10_serror_rate = log10(serror_rate+0.5)) %>%
+p2 <- data %>% mutate(log10_serror_rate = serror_rate) %>%
   select(class, log10_serror_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_serror_rate, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = log10(serror_rate+0.5), fill = class)) +
+p1 <- ggplot(data = data, aes(x = serror_rate, fill = class)) +
       geom_density(alpha = 0.5) +
       scale_fill_manual(values = c("gray50", "orangered2")) +
       geom_rug(aes(color = class), alpha = 0.5) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = log10(serror_rate+0.5), color = class)) +
+p2 <- ggplot(data = data, aes(x = class, y = serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
@@ -633,23 +632,23 @@ p1
 p2
 ```
 
-Análisis de srv_serror_rate. Podría ser relevante.
+Análisis de srv_serror_rate. Relevante.
 ```{r EDA27, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_serror_rate = log10(srv_serror_rate+0.5)) %>%
+p2 <- data %>% mutate(log10_srv_serror_rate = srv_serror_rate) %>%
   select(class, log10_srv_serror_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_srv_serror_rate, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = log10(srv_serror_rate+0.5), fill = class)) +
+p1 <- ggplot(data = data, aes(x = srv_serror_rate, fill = class)) +
       geom_density(alpha = 0.5) +
       scale_fill_manual(values = c("gray50", "orangered2")) +
       geom_rug(aes(color = class), alpha = 0.5) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = log10(srv_serror_rate+0.5), color = class)) +
+p2 <- ggplot(data = data, aes(x = class, y = srv_serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
@@ -658,7 +657,7 @@ p1
 p2
 ```
 
-Análisis de rerror_rate. Parece irrelevante
+Análisis de rerror_rate. Parece relevante
 ```{r EDA28, echo=TRUE}
 
 p2 <- data %>% mutate(log10_rerror_rate = log10(rerror_rate+0.5)) %>%
@@ -683,23 +682,23 @@ p1
 p2
 ```
 
-Análisis de srv_rerror_rate. Parece irrelevante.
+Análisis de srv_rerror_rate. Podría ser relevante
 ```{r EDA29, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_rerror_rate = log10(srv_rerror_rate+0.5)) %>%
+p2 <- data %>% mutate(log10_srv_rerror_rate = srv_rerror_rate) %>%
   select(class, log10_srv_rerror_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_srv_rerror_rate, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = log10(srv_rerror_rate+0.5), fill = class)) +
+p1 <- ggplot(data = data, aes(x = srv_rerror_rate, fill = class)) +
       geom_density(alpha = 0.5) +
       scale_fill_manual(values = c("gray50", "orangered2")) +
       geom_rug(aes(color = class), alpha = 0.5) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = log10(srv_rerror_rate+0.5), color = class)) +
+p2 <- ggplot(data = data, aes(x = class, y = srv_rerror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
@@ -708,7 +707,7 @@ p1
 p2
 ```
 
-Análisis de same_srv_rate. Parece relevante
+Análisis de same_srv_rate. Relevante
 ```{r EDA30, echo=TRUE}
 
 p2 <- data %>% mutate(log10_same_srv_rate = log10(same_srv_rate+0.5)) %>%
@@ -733,7 +732,7 @@ p1
 p2
 ```
 
-Análisis de diff_srv_rate. Parece relevante.
+Análisis de diff_srv_rate. Relevante.
 ```{r EDA31, echo=TRUE}
 
 p2 <- data %>% mutate(log10_diff_srv_rate = log10(diff_srv_rate+0.5)) %>%
@@ -758,7 +757,7 @@ p1
 p2
 ```
 
-Análisis de srv_diff_host_rate. Irrelevante.
+Análisis de srv_diff_host_rate. Relevante.
 ```{r EDA32, echo=TRUE}
 
 p2 <- data %>% mutate(log10_srv_diff_host_rate = log10(srv_diff_host_rate+0.5)) %>%
@@ -783,7 +782,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_count. Podría ser relevante.
+Análisis de dst_host_count. Relevante.
 ```{r EDA33, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_count = dst_host_count) %>%
@@ -858,7 +857,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_diff_srv_rate. Podría ser relevante.
+Análisis de dst_host_diff_srv_rate. Relevante.
 ```{r EDA36, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_diff_srv_rate = dst_host_diff_srv_rate) %>%
@@ -883,7 +882,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_same_src_port_rate. Irrelevante
+Análisis de dst_host_same_src_port_rate. Podría ser relevante
 ```{r EDA37, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
@@ -908,7 +907,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_srv_diff_host_rate. Irrelevante
+Análisis de dst_host_srv_diff_host_rate. Relevante
 ```{r EDA38, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
@@ -933,7 +932,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_serror_rate. Podría ser relevante.
+Análisis de dst_host_serror_rate. Relevante.
 ```{r EDA39, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
@@ -958,7 +957,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_srv_serror_rate. Podría ser relevante
+Análisis de dst_host_srv_serror_rate. Relevante
 ```{r EDA40, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
@@ -1008,7 +1007,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_same_src_port_rate. Irrelevante.
+Análisis de dst_host_same_src_port_rate. Podría ser relevante.
 ```{r EDA42, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
@@ -1033,7 +1032,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_srv_diff_host_rate. Irrelevante.
+Análisis de dst_host_srv_diff_host_rate. Podría ser relevante.
 ```{r EDA43, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
@@ -1058,7 +1057,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_serror_rate. Podría ser relevante.
+Análisis de dst_host_serror_rate. Relevante.
 ```{r EDA44, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
@@ -1083,7 +1082,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_srv_serror_rate. Podría ser relevante.
+Análisis de dst_host_srv_serror_rate. Relevante.
 ```{r EDA45, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
@@ -1133,7 +1132,7 @@ p1
 p2
 ```
 
-Análisis de dst_host_srv_rerror_rate. Irrelevante.
+Análisis de dst_host_srv_rerror_rate. Relevante.
 ```{r EDA47, echo=TRUE}
 
 p2 <- data %>% mutate(log10_dst_host_srv_rerror_rate = dst_host_srv_rerror_rate) %>%
@@ -1160,6 +1159,44 @@ p2
 
 
 # Modelos de Aprendizaje Máquina
+```{r Algoritmo}
+data <- Train_data[1:(nrow(Train_data)/2), ]
+
+data_test <-Train_data[(nrow(Train_data)/2):nrow(Train_data),]
+
+
+
+datos_train_t=data%>%
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+
+datos_train_t$service=as.numeric(as.factor(datos_train_t$service))
+datos_train_t$protocol_type=as.numeric(as.factor(datos_train_t$protocol_type))
+datos_train_t$flag=as.numeric(as.factor(datos_train_t$flag))
+
+datos_train_t
+data
+datos_test_t
+
+datos_test_t=data_test%>%
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+
+datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
+datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
+datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
+
+
+cl=factor(data$class)
+k1=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
+table(k1, cl)
+
+
+cl_test=factor(data_test$class)
+k1=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(k1,cl_test)
+
+```
+
+
 
 # Resultados
 
