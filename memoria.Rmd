@@ -54,13 +54,13 @@ Test_data <-  read.csv("./datos/Test_data.csv")
 Vamos a ver los primeros datos:
 ```{r datos_inicio, echo=TRUE}
 data <- Train_data
+data
 ```
 
 
 # EDA
 
 En primer lugar estudiamos las variables de la base de datos:
-
 
 
 
@@ -76,18 +76,12 @@ p <- data %>% mutate(log10_duration = log10(duration+0.5)) %>%
 p
 
 
-p1 <- ggplot(data = data, aes(x = log10(duration+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = log10(duration+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 
 ```
@@ -133,22 +127,16 @@ p <- data %>% mutate(log10_src_bytes = log10(src_bytes+0.5)) %>%
     geom_density(lwd=2)
 p
 
-p1 <- ggplot(data = data, aes(x = log10(src_bytes+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = log10(src_bytes+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 
 ```
-Análisis de dst_byte. Relevante
+Análisis de dst_bytes. Relevante
 ```{r EDA6, echo=TRUE}
 
 p <- data %>% mutate(log10_dst_bytes = log10(dst_bytes+0.5)) %>%
@@ -158,18 +146,13 @@ p <- data %>% mutate(log10_dst_bytes = log10(dst_bytes+0.5)) %>%
     geom_density(lwd=2)
 p
 
-p1 <- ggplot(data = data, aes(x = log10(dst_bytes+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(dst_bytes+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 Análisis de land. Irrelevante.
@@ -183,18 +166,12 @@ p <- data %>% mutate(log10_land = log10(land+0.5)) %>%
     geom_density(lwd=2)
 p
 
-p1 <- ggplot(data = data, aes(x = log10(land+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = log10(land+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 
 ```
@@ -202,149 +179,119 @@ p2
 Análisis de wrong_fragment. Podría ser relevante.
 ```{r EDA9, echo=TRUE}
 
-p2 <- data %>% mutate(log10_wrong_fragment = log10(wrong_fragment+0.5)) %>%
+p <- data %>% mutate(log10_wrong_fragment = log10(wrong_fragment+0.5)) %>%
   select(class, log10_wrong_fragment) %>%
   na.omit() %>%
   ggplot(aes(x=log10_wrong_fragment, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(wrong_fragment+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(wrong_fragment+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de urgent.Irrelevante
 ```{r EDA10, echo=TRUE}
 
-p2 <- data %>% mutate(log10_urgent = urgent) %>%
+p <- data %>% mutate(log10_urgent = urgent) %>%
   select(class, log10_urgent) %>%
   na.omit() %>%
   ggplot(aes(x=log10_urgent, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = urgent, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = urgent, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 Análisis de hot. Irrelevante
 ```{r EDA11, echo=TRUE}
 
-p2 <- data %>% mutate(log10_hot = log10(hot+0.5)) %>%
+p <- data %>% mutate(log10_hot = log10(hot+0.5)) %>%
   select(class, log10_hot) %>%
   na.omit() %>%
   ggplot(aes(x=log10_hot, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(hot+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(hot+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_failed_logins. Irrelevante 
 ```{r EDA12, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_failed_logins = log10(num_failed_logins+0.5)) %>%
+p <- data %>% mutate(log10_num_failed_logins = log10(num_failed_logins+0.5)) %>%
   select(class, log10_num_failed_logins) %>%
   na.omit() %>%
   ggplot(aes(x=log10_num_failed_logins, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = Train_data, aes(x = log10(num_failed_logins+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(num_failed_logins+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de logged_in. Relevante.
 ```{r EDA13, echo=TRUE}
 
-p2 <- data %>% 
+p <- data %>% 
   select(class, logged_in) %>%
   na.omit() %>%
   ggplot(aes(x=logged_in, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = logged_in, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = logged_in, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_compromised. Irrelevante. 
 ```{r EDA14, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_compromised = log10(num_compromised+0.5)) %>%
+p <- data %>% mutate(log10_num_compromised = log10(num_compromised+0.5)) %>%
   select(class, log10_num_compromised) %>%
   na.omit() %>%
   ggplot(aes(x=log10_num_compromised, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(num_compromised+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(num_compromised+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
@@ -371,10 +318,10 @@ p2
 Analizamos la variable su_attempted. Irrelevante
 ```{r EDA16, echo=TRUE}
 
-p <- data %>% mutate(log10_su_attempted = su_attempted) %>%
-  select(class, log10_su_attempted) %>%
+p <- data  %>%
+  select(class, su_attempted) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_su_attempted, colour=class)) +
+  ggplot(aes(x=su_attempted, colour=class)) +
     geom_density(lwd=2)
 p
 
@@ -385,775 +332,516 @@ ggplot(data, aes(su_attempted,fill=class))+ geom_bar()+ ggtitle("Anomalías por 
 Análisis de num_root.Irrelevante
 ```{r EDA17, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_root = log10(num_root+0.5)) %>%
+p <- data %>% mutate(log10_num_root = log10(num_root+0.5)) %>%
   select(class, log10_num_root) %>%
   na.omit() %>%
   ggplot(aes(x=log10_num_root, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(num_root+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(num_root+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_file_creations. Irrelevante
 ```{r EDA18, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_file_creations = log10(num_file_creations+0.5)) %>%
+p <- data %>% mutate(log10_num_file_creations = log10(num_file_creations+0.5)) %>%
   select(class, log10_num_file_creations) %>%
   na.omit() %>%
   ggplot(aes(x=log10_num_file_creations, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(num_file_creations+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(num_file_creations+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_shells. Irrelevante
 ```{r EDA19, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_shells = num_shells) %>%
-  select(class, log10_num_shells) %>%
+p <- data %>%
+  select(class, num_shells) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_num_shells, colour=class)) +
+  ggplot(aes(x=num_shells, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = num_shells, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = num_shells, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_access_files. Irrelevante
 ```{r EDA20, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_access_files = num_access_files) %>%
-  select(class, log10_num_access_files) %>%
+p <- data %>%
+  select(class, num_access_files) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_num_access_files, colour=class)) +
+  ggplot(aes(x=num_access_files, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = num_access_files, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = num_access_files, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de num_outbound_cmds. Irrelevante
 ```{r EDA21, echo=TRUE}
 
-p2 <- data %>% mutate(log10_num_outbound_cmds = num_outbound_cmds) %>%
-  select(class, log10_num_outbound_cmds) %>%
+p <- data  %>%
+  select(class, num_outbound_cmds) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_num_outbound_cmds, colour=class)) +
+  ggplot(aes(x=num_outbound_cmds, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = num_outbound_cmds, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = num_outbound_cmds, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de is_host_login. Irrelevante
 ```{r EDA22, echo=TRUE}
 
-p2 <- data %>% mutate(log10_is_host_login = is_host_login) %>%
-  select(class, log10_is_host_login) %>%
+p <- data  %>%
+  select(class, is_host_login) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_is_host_login, colour=class)) +
+  ggplot(aes(x=is_host_login, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = is_host_login, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = is_host_login, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de is_guest_login. Irrelevante
 ```{r EDA23, echo=TRUE}
 
-p2 <- data %>% mutate(log10_is_guest_login = is_guest_login) %>%
-  select(class, log10_is_guest_login) %>%
+p <- data  %>%
+  select(class, is_guest_login) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_is_guest_login, colour=class)) +
+  ggplot(aes(x=is_guest_login, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = is_guest_login, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = is_guest_login, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de count. Relevante
 ```{r EDA24, echo=TRUE}
 
-p2 <- data %>% mutate(log10_count = log10(count+0.5)) %>%
+p <- data %>% mutate(log10_count = log10(count+0.5)) %>%
   select(class, log10_count) %>%
   na.omit() %>%
   ggplot(aes(x=log10_count, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(count+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(count+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de srv_count. Parece relevante.
 ```{r EDA25, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_count = log10(srv_count+0.5)) %>%
+p <- data %>% mutate(log10_srv_count = log10(srv_count+0.5)) %>%
   select(class, log10_srv_count) %>%
   na.omit() %>%
   ggplot(aes(x=log10_srv_count, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(srv_count+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(srv_count+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de serror_rate. Relevante.
 ```{r EDA26, echo=TRUE}
 
-p2 <- data %>% mutate(log10_serror_rate = serror_rate) %>%
-  select(class, log10_serror_rate) %>%
+p <- data %>%
+  select(class, serror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_serror_rate, colour=class)) +
+  ggplot(aes(x=serror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de srv_serror_rate. Relevante.
 ```{r EDA27, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_serror_rate = srv_serror_rate) %>%
-  select(class, log10_srv_serror_rate) %>%
+p <- data  %>%
+  select(class, srv_serror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_srv_serror_rate, colour=class)) +
+  ggplot(aes(x=srv_serror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = srv_serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = srv_serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de rerror_rate. Parece relevante
 ```{r EDA28, echo=TRUE}
 
-p2 <- data %>% mutate(log10_rerror_rate = log10(rerror_rate+0.5)) %>%
+p <- data %>% mutate(log10_rerror_rate = log10(rerror_rate+0.5)) %>%
   select(class, log10_rerror_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_rerror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(rerror_rate+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(rerror_rate+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de srv_rerror_rate. Podría ser relevante
 ```{r EDA29, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_rerror_rate = srv_rerror_rate) %>%
-  select(class, log10_srv_rerror_rate) %>%
+p <- data %>%
+  select(class, srv_rerror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_srv_rerror_rate, colour=class)) +
+  ggplot(aes(x=srv_rerror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = srv_rerror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = srv_rerror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de same_srv_rate. Relevante
 ```{r EDA30, echo=TRUE}
 
-p2 <- data %>% mutate(log10_same_srv_rate = log10(same_srv_rate+0.5)) %>%
+p <- data %>% mutate(log10_same_srv_rate = log10(same_srv_rate+0.5)) %>%
   select(class, log10_same_srv_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_same_srv_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(same_srv_rate+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = log10(same_srv_rate+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de diff_srv_rate. Relevante.
 ```{r EDA31, echo=TRUE}
 
-p2 <- data %>% mutate(log10_diff_srv_rate = log10(diff_srv_rate+0.5)) %>%
+p <- data %>% mutate(log10_diff_srv_rate = log10(diff_srv_rate+0.5)) %>%
   select(class, log10_diff_srv_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_diff_srv_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(diff_srv_rate+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = log10(diff_srv_rate+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de srv_diff_host_rate. Relevante.
 ```{r EDA32, echo=TRUE}
 
-p2 <- data %>% mutate(log10_srv_diff_host_rate = log10(srv_diff_host_rate+0.5)) %>%
+p <- data %>% mutate(log10_srv_diff_host_rate = log10(srv_diff_host_rate+0.5)) %>%
   select(class, log10_srv_diff_host_rate) %>%
   na.omit() %>%
   ggplot(aes(x=log10_srv_diff_host_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = log10(srv_diff_host_rate+0.5), fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = log10(srv_diff_host_rate+0.5), color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_count. Relevante.
 ```{r EDA33, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_count = dst_host_count) %>%
-  select(class, log10_dst_host_count) %>%
+p <- data  %>%
+  select(class, dst_host_count) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_count, colour=class)) +
+  ggplot(aes(x=dst_host_count, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_count, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_count, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_srv_count. Relevante
 ```{r EDA34, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_srv_count = dst_host_srv_count) %>%
-  select(class, log10_dst_host_srv_count) %>%
+p <- data  %>%
+  select(class, dst_host_srv_count) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_count, colour=class)) +
+  ggplot(aes(x=dst_host_srv_count, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_srv_count, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_count, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_same_srv_rate. Relevante.
 ```{r EDA35, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_same_srv_rate = dst_host_same_srv_rate) %>%
-  select(class, log10_dst_host_same_srv_rate) %>%
+p <- data  %>%
+  select(class, dst_host_same_srv_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_same_srv_rate, colour=class)) +
+  ggplot(aes(x=dst_host_same_srv_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_same_srv_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_same_srv_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_diff_srv_rate. Relevante.
 ```{r EDA36, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_diff_srv_rate = dst_host_diff_srv_rate) %>%
-  select(class, log10_dst_host_diff_srv_rate) %>%
+p <- data %>%
+  select(class, dst_host_diff_srv_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_diff_srv_rate, colour=class)) +
+  ggplot(aes(x=dst_host_diff_srv_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_diff_srv_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_diff_srv_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_same_src_port_rate. Podría ser relevante
 ```{r EDA37, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
-  select(class, log10_dst_host_same_src_port_rate) %>%
+p <- data  %>%
+  select(class, dst_host_same_src_port_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_same_src_port_rate, colour=class)) +
+  ggplot(aes(x=dst_host_same_src_port_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_same_src_port_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_same_src_port_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_srv_diff_host_rate. Relevante
 ```{r EDA38, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
-  select(class, log10_dst_host_srv_diff_host_rate) %>%
+p <- data %>%
+  select(class, dst_host_srv_diff_host_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_diff_host_rate, colour=class)) +
+  ggplot(aes(x=dst_host_srv_diff_host_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_srv_diff_host_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_diff_host_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_serror_rate. Relevante.
 ```{r EDA39, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
-  select(class, log10_dst_host_serror_rate) %>%
+p <- data %>%
+  select(class, dst_host_serror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_serror_rate, colour=class)) +
+  ggplot(aes(x=dst_host_serror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_srv_serror_rate. Relevante
 ```{r EDA40, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
-  select(class, log10_dst_host_srv_serror_rate) %>%
+p <- data %>%
+  select(class, dst_host_srv_serror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_serror_rate, colour=class)) +
+  ggplot(aes(x=dst_host_srv_serror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_srv_serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_serror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
 Análisis de dst_host_rerror_rate. Irrelevante.
 ```{r EDA41, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_rerror_rate = dst_host_rerror_rate) %>%
-  select(class, log10_dst_host_rerror_rate) %>%
+p2 <- data  %>%
+  select(class, dst_host_rerror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_rerror_rate, colour=class)) +
+  ggplot(aes(x=dst_host_rerror_rate, colour=class)) +
     geom_density(lwd=2)
 p2
 
-p1 <- ggplot(data = data, aes(x = dst_host_rerror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_rerror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
-Análisis de dst_host_same_src_port_rate. Podría ser relevante.
-```{r EDA42, echo=TRUE}
-
-p2 <- data %>% mutate(log10_dst_host_same_src_port_rate = dst_host_same_src_port_rate) %>%
-  select(class, log10_dst_host_same_src_port_rate) %>%
-  na.omit() %>%
-  ggplot(aes(x=log10_dst_host_same_src_port_rate, colour=class)) +
-    geom_density(lwd=2)
-p2
-
-p1 <- ggplot(data = data, aes(x = dst_host_same_src_port_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = dst_host_same_src_port_rate, color = class)) +
-      geom_boxplot(outlier.shape = NA) +
-      geom_jitter(alpha = 0.3, width = 0.15) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p1
-p2
-```
-
-Análisis de dst_host_srv_diff_host_rate. Podría ser relevante.
-```{r EDA43, echo=TRUE}
-
-p2 <- data %>% mutate(log10_dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate) %>%
-  select(class, log10_dst_host_srv_diff_host_rate) %>%
-  na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_diff_host_rate, colour=class)) +
-    geom_density(lwd=2)
-p2
-
-p1 <- ggplot(data = data, aes(x = dst_host_srv_diff_host_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_diff_host_rate, color = class)) +
-      geom_boxplot(outlier.shape = NA) +
-      geom_jitter(alpha = 0.3, width = 0.15) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p1
-p2
-```
-
-Análisis de dst_host_serror_rate. Relevante.
-```{r EDA44, echo=TRUE}
-
-p2 <- data %>% mutate(log10_dst_host_serror_rate = dst_host_serror_rate) %>%
-  select(class, log10_dst_host_serror_rate) %>%
-  na.omit() %>%
-  ggplot(aes(x=log10_dst_host_serror_rate, colour=class)) +
-    geom_density(lwd=2)
-p2
-
-p1 <- ggplot(data = data, aes(x = dst_host_serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = dst_host_serror_rate, color = class)) +
-      geom_boxplot(outlier.shape = NA) +
-      geom_jitter(alpha = 0.3, width = 0.15) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p1
-p2
-```
-
-Análisis de dst_host_srv_serror_rate. Relevante.
-```{r EDA45, echo=TRUE}
-
-p2 <- data %>% mutate(log10_dst_host_srv_serror_rate = dst_host_srv_serror_rate) %>%
-  select(class, log10_dst_host_srv_serror_rate) %>%
-  na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_serror_rate, colour=class)) +
-    geom_density(lwd=2)
-p2
-
-p1 <- ggplot(data = data, aes(x = dst_host_srv_serror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_serror_rate, color = class)) +
-      geom_boxplot(outlier.shape = NA) +
-      geom_jitter(alpha = 0.3, width = 0.15) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p1
-p2
-```
-
-Análisis de dst_host_rerror_rate. Irrelevante.
-```{r EDA46, echo=TRUE}
-
-p2 <- data %>% mutate(log10_dst_host_rerror_rate = dst_host_rerror_rate) %>%
-  select(class, log10_dst_host_rerror_rate) %>%
-  na.omit() %>%
-  ggplot(aes(x=log10_dst_host_rerror_rate, colour=class)) +
-    geom_density(lwd=2)
-p2
-
-p1 <- ggplot(data = data, aes(x = dst_host_rerror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p2 <- ggplot(data = data, aes(x = class, y = dst_host_rerror_rate, color = class)) +
-      geom_boxplot(outlier.shape = NA) +
-      geom_jitter(alpha = 0.3, width = 0.15) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
-p1
-p2
-```
 
 Análisis de dst_host_srv_rerror_rate. Relevante.
-```{r EDA47, echo=TRUE}
+```{r EDA42, echo=TRUE}
 
-p2 <- data %>% mutate(log10_dst_host_srv_rerror_rate = dst_host_srv_rerror_rate) %>%
-  select(class, log10_dst_host_srv_rerror_rate) %>%
+p <- data %>%
+  select(class, dst_host_srv_rerror_rate) %>%
   na.omit() %>%
-  ggplot(aes(x=log10_dst_host_srv_rerror_rate, colour=class)) +
+  ggplot(aes(x=dst_host_srv_rerror_rate, colour=class)) +
     geom_density(lwd=2)
-p2
+p
 
-p1 <- ggplot(data = data, aes(x = dst_host_srv_rerror_rate, fill = class)) +
-      geom_density(alpha = 0.5) +
-      scale_fill_manual(values = c("gray50", "orangered2")) +
-      geom_rug(aes(color = class), alpha = 0.5) +
-      scale_color_manual(values = c("gray50", "orangered2")) +
-      theme_bw()
+
 p2 <- ggplot(data = data, aes(x = class, y = dst_host_srv_rerror_rate, color = class)) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(alpha = 0.3, width = 0.15) +
       scale_color_manual(values = c("gray50", "orangered2")) +
       theme_bw()
-p1
+
 p2
 ```
 
@@ -1167,7 +855,7 @@ data_test <-Train_data[(nrow(Train_data)/2):nrow(Train_data),]
 
 
 datos_train_t=data%>%
-  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
 
 datos_train_t$service=as.numeric(as.factor(datos_train_t$service))
 datos_train_t$protocol_type=as.numeric(as.factor(datos_train_t$protocol_type))
@@ -1178,7 +866,7 @@ data
 datos_test_t
 
 datos_test_t=data_test%>%
-  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
 
 datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
 datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
@@ -1193,6 +881,58 @@ table(k1, cl)
 cl_test=factor(data_test$class)
 k1=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
 table(k1,cl_test)
+
+```
+```{r knn v2}
+datos_train_t=data%>%
+  select(protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate)
+
+datos_train_t$service=as.numeric(as.factor(datos_train_t$service))
+datos_train_t$protocol_type=as.numeric(as.factor(datos_train_t$protocol_type))
+datos_train_t$flag=as.numeric(as.factor(datos_train_t$flag))
+
+datos_train_t
+data
+datos_test_t
+
+datos_test_t=data_test%>%
+  select(protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate)
+
+datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
+datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
+datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
+
+
+cl=factor(data$class)
+k1=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
+table(k1, cl)
+
+
+cl_test=factor(data_test$class)
+k1=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(k1,cl_test)
+```
+
+
+```{r DT}
+datos_train_t=data%>%
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+
+
+datos_test_t=data_test%>%
+  select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
+
+
+cl_train=factor(data$class)
+datos_train_t=as.data.frame(datos_train_t)
+datos_test_t=as.data.frame(datos_test_t)
+dt1=rpart(cl_train~.,data=datos_train_t,control = rpart.control(cp = 0.01))
+rpart.plot(dt1)
+
+cl_test=factor(data_test$class)
+table(predict(dt1,datos_train_t,type="class"),cl_train)
+table(predict(dt1,datos_test_t,type="class"),cl_test)
+
 
 ```
 
