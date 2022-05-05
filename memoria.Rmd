@@ -34,6 +34,9 @@ En esta práctica vamos a estudiar la detección de intrusiones, que puede ser m
 library(class)
 library(dplyr)
 library(ggplot2)
+library(rpart)
+library(rpart.plot)
+library(caret)
 ```
 # Los Datos
 
@@ -863,7 +866,6 @@ datos_train_t$flag=as.numeric(as.factor(datos_train_t$flag))
 
 datos_train_t
 data
-datos_test_t
 
 datos_test_t=data_test%>%
   select(duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, rerror_rate, srv_rerror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_same_src_port_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate, dst_host_srv_rerror_rate)
@@ -872,15 +874,18 @@ datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
 datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
 datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
 
+datos_test_t
 
 cl=factor(data$class)
-k1=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
-table(k1, cl)
+k3_long=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
+table(k3_long, cl)
 
 
-cl_test=factor(data_test$class)
-k1=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
-table(k1,cl_test)
+cl_test_long=factor(data_test$class)
+k3_long=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(k3_long,cl_test_long)
+k1_long=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=1,prob=TRUE)
+k5_long=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=5,prob=TRUE)
 
 ```
 ```{r knn v2}
@@ -902,15 +907,16 @@ datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
 datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
 datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
 
-
 cl=factor(data$class)
-k1=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
-table(k1, cl)
+k3_short=knn(cl=cl, train=datos_train_t, test=datos_train_t, k=3, prob=TRUE)
+table(k3_short, cl)
 
 
-cl_test=factor(data_test$class)
-k1=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
-table(k1,cl_test)
+cl_test_short=factor(data_test$class)
+k3_short=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(k3_short,cl_test_short)
+k1_short=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=1,prob=TRUE)
+k5_short=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=5,prob=TRUE)
 ```
 
 
@@ -939,6 +945,32 @@ table(predict(dt1,datos_test_t,type="class"),cl_test)
 
 
 # Resultados
+
+```{R accuracy_knn_3}
+
+accuracy = sum(k5_long == cl_test_long) /length(cl_test_long)
+error = 1-accuracy
+cat("k=5 long ->", error, "\n")
+accuracy = sum(k3_long == cl_test_long) /length(cl_test_long)
+error = 1-accuracy
+cat("k=3 long ->", error, "\n")
+accuracy = sum(k1_long == cl_test_long) /length(cl_test_long)
+error = 1-accuracy
+cat("k=1 long ->", error, "\n")
+
+accuracy = sum(k5_short == cl_test_short) /length(cl_test_short)
+error = 1-accuracy
+cat("k=5 short ->", error, "\n")
+accuracy = sum(k3_short == cl_test_short) /length(cl_test_short)
+error = 1-accuracy
+cat("k=3 short ->", error, "\n")
+accuracy = sum(k1_short == cl_test_short) /length(cl_test_short)
+error = 1-accuracy
+cat("k=1 short ->", error, "\n")
+
+```
+
+Los diferentes parámetros con los que se genera el algoritmo knn determinan la calidad de la predicción, viendo el error calculado podemos observar que en nuestro caso, es mejor predicción la que se consigue con el knn con menos variables. A su vez, podemos observar que, en nuestro caso, bajando el número de vecinos obtenemos un error menor en los tests.
 
 ## Explicabilidad
 
