@@ -949,55 +949,89 @@ table(predict(dt1,datos_test_t,type="class"),cl_test)
 ```{R accuracy_knn_3}
 
 
+#k5_long
 accuracy = sum(k5_long == cl_test_long) /length(cl_test_long)
 error = 1-accuracy
-cat("k=5 long ->", error, "\n")
+cat("k=5 long error ->", error, "\n")
 confusionMatrix(table(k5_long,data_test$class))
+sensitivity = sum(k5_long == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+recall = sensitivity
+specificity =  sum(k5_long == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k5_long == data_test$class & k5_long == "anomaly") / sum(k5_long == "anomaly")
+npv = sum(k5_long == data_test$class & k5_long == "normal") / sum(k5_long == "normal")
+f1score = 2*precision*recall /(precision+recall)
+cat("k=5 long f1score ->", f1score, "\n")
 
+#k3_long
 accuracy = sum(k3_long == cl_test_long) /length(cl_test_long)
 error = 1-accuracy
+cat("k=3 long error ->", error, "\n")
 confusionMatrix(table(k3_long,data_test$class))
+sensitivity = sum(k3_long == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+recall = sensitivity
+specificity =  sum(k3_long == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k3_long == data_test$class & k3_long == "anomaly") / sum(k3_long == "anomaly")
+npv = sum(k3_long == data_test$class & k3_long == "normal") / sum(k3_long == "normal")
+f1score = 2*precision*recall /(precision+recall)
+cat("k=3 long f1score ->", f1score, "\n")
 
-cat("k=3 long ->", error, "\n")
+
+#k1_long
 accuracy = sum(k1_long == cl_test_long) /length(cl_test_long)
 error = 1-accuracy
-cat("k=1 long ->", error, "\n")
+cat("k=1 long error ->", error, "\n")
 confusionMatrix(table(k1_long,data_test$class))
+sensitivity = sum(k1_long == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+recall = sensitivity
+specificity =  sum(k1_long == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k1_long == data_test$class & k1_long == "anomaly") / sum(k1_long == "anomaly")
+npv = sum(k1_long == data_test$class & k1_long == "normal") / sum(k1_long == "normal")
+f1score = 2*precision*recall /(precision+recall)
+cat("k=1 long f1score ->", f1score, "\n")
 
+#k5_short
 accuracy = sum(k5_short == cl_test_short) /length(cl_test_short)
 error = 1-accuracy
-cat("k=5 short ->", error, "\n")
+cat("k=5 short error ->", error, "\n")
 confusionMatrix(table(k5_short,data_test$class))
+sensitivity = sum(k5_short == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+recall = sensitivity
+specificity =  sum(k5_short == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k5_short == data_test$class & k5_short == "anomaly") / sum(k5_short == "anomaly")
+npv = sum(k5_short == data_test$class & k5_short == "normal") / sum(k5_short == "normal")
+f1score = 2*precision*recall /(precision+recall)
+cat("k=5 short f1score ->", f1score, "\n")
 
+#k3_short
 accuracy = sum(k3_short == cl_test_short) /length(cl_test_short)
 error = 1-accuracy
 cat("k=3 short ->", error, "\n")
 confusionMatrix(table(k3_short,data_test$class))
+sensitivity = sum(k3_short == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+recall = sensitivity
+specificity =  sum(k3_short == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k3_short == data_test$class & k3_short == "anomaly") / sum(k3_short == "anomaly")
+npv = sum(k3_short == data_test$class & k3_short == "normal") / sum(k3_short == "normal")
+f1score = 2*precision*recall /(precision+recall)
+cat("k=3 short f1score ->", f1score, "\n")
 
+#k1_short
 accuracy = sum(k1_short == cl_test_short) /length(cl_test_short)
 error = 1-accuracy
 cat("k=1 short ->", error, "\n")
 confusionMatrix(table(k1_short,data_test$class))
-
-
-
-
-# Acierto sobre el total de clase anomaly, sensitivity o recall
-sensitivity = sum(k5_long == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
+sensitivity = sum(k1_short == data_test$class & data_test$class == "anomaly") / sum(data_test$class == "anomaly")
 recall = sensitivity
-
-# Acierto sobre el total de clase normal
-specificity =  sum(k5_long == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
-
-# Acierto cuando el predicho es anomaly
-precision = sum(k5_long == data_test$class & k5_long == "anomaly") / sum(k5_long == "anomaly")
-
-# Acierto cuando el predicho es normal
-npv = sum(k5_long == data_test$class & k5_long == "normal") / sum(k5_long == "normal")
-
-# F1_score
+specificity =  sum(k1_short == data_test$class & data_test$class == "normal") / sum(data_test$class == "normal")
+precision = sum(k1_short == data_test$class & k1_short == "anomaly") / sum(k1_short == "anomaly")
+npv = sum(k1_short == data_test$class & k1_short == "normal") / sum(k1_short == "normal")
 f1score = 2*precision*recall /(precision+recall)
-c(accuracy = accuracy, error = error, sensitivity = sensitivity, specificity = specificity, precision = precision, npv = npv, f1=f1score)
+cat("k=1 short f1score ->", f1score, "\n")
+
+
+
+
+
 
 
 ```
