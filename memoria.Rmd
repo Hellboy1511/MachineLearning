@@ -29,6 +29,8 @@ link-citations: yes  # Enlaces a entradas de bibliografía al final
 
 En esta práctica vamos a estudiar la detección de intrusiones, que puede ser modelada como un problema de clasificación binaria. Es decir, el objetivo es determinar si el tráfico de la red es un comportamiento anormal o no.
 
+Para logar dicho objetivo vamos a implementar diferentes modelos de predicción a través de inteligencia artifial, finalmente eligiendo el que menos error tenga (evitando a su vez overlapping).
+
 
 ```{r librerias´, echo=TRUE, message=FALSE}
 library(class)
@@ -63,7 +65,7 @@ data
 
 # EDA
 
-En primer lugar estudiamos las variables de la base de datos:
+En primer lugar estudiamos los datos recogidos de cada evento de manera estadística para evaluar su posible relevancia para la generación de un modelo de predicción. A partir de ahora a estos datos se los llamará variables:
 
 
 
@@ -850,6 +852,7 @@ p2
 
 
 # Modelos de Aprendizaje Máquina
+Los diferentes modelos que vamos a utilizar son un decission tree y dos knn, cada uno de los knn con  variables diferentes, y además de estudiarlos con diferentes k (1,3 y 5)
 ```{r Algoritmo}
 data <- Train_data[1:(nrow(Train_data)/2), ]
 
@@ -936,7 +939,7 @@ table(predict(dt1,datos_test_t,type="class"),cl_test)
 
 
 # Resultados
-
+Las diferentes métricas de los modelos de predicción knn utilizados, siendo long o short la diferencia en número de variables previamente mostradas en el apartado anterior, y el número que acompaña a la k el valor de la misma:
 ```{R accuracy_knn_3}
 
 
@@ -1026,10 +1029,10 @@ cat("k=1 short f1score ->", f1score, "\n")
 
 
 ```
-
+## Explicabilidad
 Los diferentes parámetros con los que se genera el algoritmo knn determinan la calidad de la predicción, viendo el error calculado podemos observar que en nuestro caso, es mejor predicción la que se consigue con el knn con menos variables. A su vez, podemos observar que, en nuestro caso, bajando el número de vecinos obtenemos un error menor en los tests.
 
-## Explicabilidad
+
 
 # Evaluación
 Tras comparar los resultados en el entrenamiento, de todos los algoritmos probados, el que mejor parece funcionar es un knn con k=3 y con menos variables. Aunque k=1 ofrecía mejores resultados en el test, había overlapping, por lo que no es adecuado elegir ese algoritmo. 
@@ -1051,11 +1054,13 @@ datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
 
 
 
-k3_short=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
-table(k3_short)
+result=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(result)
 
 
 ````
 
 # Conclusiones
+En nuestro caso parece que los decission tree funcionan bastante peor que el algoritmo knn. Además, al usar el algoritmo knn, si usamos 1 como valor de k, se produce un claro overlapping. Por otra parte, si usamos un valor bastante alto para k, como puede ser 5, tiende a empeorar. Por lo tanto, lo mejor ha sido encontrar un valor intermedio para k, en nuestro caso, 3. 
+
 
