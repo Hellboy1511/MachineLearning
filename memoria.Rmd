@@ -1032,6 +1032,30 @@ Los diferentes parámetros con los que se genera el algoritmo knn determinan la 
 ## Explicabilidad
 
 # Evaluación
+Tras comparar los resultados en el entrenamiento, de todos los algoritmos probados, el que mejor parece funcionar es un knn con k=3 y con menos variables. Aunque k=1 ofrecía mejores resultados en el test, había overlapping, por lo que no es adecuado elegir ese algoritmo. 
+````{R Evaluacion}
+datos_train_t=data%>%
+  select(protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate)
+
+datos_train_t$service=as.numeric(as.factor(datos_train_t$service))
+datos_train_t$protocol_type=as.numeric(as.factor(datos_train_t$protocol_type))
+datos_train_t$flag=as.numeric(as.factor(datos_train_t$flag))
+
+datos_test_t=Test_data%>%
+  select(protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, logged_in, count, srv_count, serror_rate, srv_serror_rate, same_srv_rate, diff_srv_rate, srv_diff_host_rate, dst_host_count, dst_host_srv_count,  dst_host_same_srv_rate, dst_host_diff_srv_rate, dst_host_srv_diff_host_rate, dst_host_serror_rate, dst_host_srv_serror_rate)
+
+datos_test_t$service=as.numeric(as.factor(datos_test_t$service))
+datos_test_t$protocol_type=as.numeric(as.factor(datos_test_t$protocol_type))
+datos_test_t$flag=as.numeric(as.factor(datos_test_t$flag))
+
+
+
+
+k3_short=knn(cl=cl,train=datos_train_t,test=datos_test_t,k=3,prob=TRUE)
+table(k3_short)
+
+
+````
 
 # Conclusiones
 
