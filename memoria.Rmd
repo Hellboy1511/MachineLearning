@@ -69,7 +69,7 @@ En primer lugar estudiamos los datos recogidos de cada evento de manera estadís
 
 
 
-Análisis variable duration. Relevante
+Análisis de duration. Relevante.
 ```{r EDA1, echo=TRUE}
 
 
@@ -90,12 +90,14 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(duration+0.5), color = class)
 p2
 
 ```
-Análisis por protocol_type. Relevante
+
+Análisis por protocol_type. Relevante.
 ```{r EDA2, echo=TRUE}
-ggplot(data, aes(protocol_type)) + geom_bar()+ ggtitle("Número de conexiones por protocolo de red")
-ggplot(data, aes(protocol_type,fill=class))+ geom_bar()+ ggtitle("Anomalías por tipo de protocolo")
+ggplot(data, aes(protocol_type)) + geom_bar()
+ggplot(data, aes(protocol_type,fill=class))+ geom_bar()
 ```
-Análisis de service. Relevante
+
+Análisis de service. Relevante.
 ```{r EDA3, echo=TRUE}
 
 p <- data %>%
@@ -105,11 +107,11 @@ p <- data %>%
     geom_density(lwd=2)
 p
 
-ggplot(data, aes(service)) + geom_bar()+ ggtitle("x") + coord_flip()
-ggplot(data, aes(service,fill=class))+ geom_bar()+ ggtitle("x")
+ggplot(data, aes(service)) + geom_bar() + coord_flip()
+ggplot(data, aes(service,fill=class))+ geom_bar()
 ```
 
-Análisis de flag. Relevante
+Análisis de flag. Relevante.
 ```{r EDA4, echo=TRUE}
 p <- data %>%
   select(class, flag) %>%
@@ -118,11 +120,11 @@ p <- data %>%
     geom_density(lwd=2)
 p
 
-ggplot(data, aes(flag)) + geom_bar()+ ggtitle("x")
-ggplot(data, aes(flag,fill=class))+ geom_bar()+ ggtitle("x")
+ggplot(data, aes(flag)) + geom_bar()
+ggplot(data, aes(flag,fill=class))+ geom_bar()
 ```
 
-Análisis src_bytes. Relevante
+Análisis de src_bytes. Relevante.
 ```{r EDA5, echo=TRUE}
 
 p <- data %>% mutate(log10_src_bytes = log10(src_bytes+0.5)) %>%
@@ -141,7 +143,8 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(src_bytes+0.5), color = class
 p2
 
 ```
-Análisis de dst_bytes. Relevante
+
+Análisis de dst_bytes. Relevante.
 ```{r EDA6, echo=TRUE}
 
 p <- data %>% mutate(log10_dst_bytes = log10(dst_bytes+0.5)) %>%
@@ -160,8 +163,8 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(dst_bytes+0.5), color = class
 
 p2
 ```
-Análisis de land. Irrelevante.
 
+Análisis de land. Irrelevante.
 ```{r EDA7, echo=TRUE}
 
 p <- data %>% mutate(log10_land = log10(land+0.5)) %>%
@@ -201,7 +204,7 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(wrong_fragment+0.5), color = 
 p2
 ```
 
-Análisis de urgent.Irrelevante
+Análisis de urgent. Irrelevante.
 ```{r EDA10, echo=TRUE}
 
 p <- data %>% mutate(log10_urgent = urgent) %>%
@@ -220,7 +223,8 @@ p2 <- ggplot(data = data, aes(x = class, y = urgent, color = class)) +
 
 p2
 ```
-Análisis de hot. Irrelevante
+
+Análisis de hot. Irrelevante.
 ```{r EDA11, echo=TRUE}
 
 p <- data %>% mutate(log10_hot = log10(hot+0.5)) %>%
@@ -240,7 +244,7 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(hot+0.5), color = class)) +
 p2
 ```
 
-Análisis de num_failed_logins. Irrelevante 
+Análisis de num_failed_logins. Irrelevante. 
 ```{r EDA12, echo=TRUE}
 
 p <- data %>% mutate(log10_num_failed_logins = log10(num_failed_logins+0.5)) %>%
@@ -320,7 +324,8 @@ p2 <- ggplot(data = datos, aes(x = class, y = root_shell_2, color = class)) +
 p1
 p2
 ```
-Analizamos la variable su_attempted. Irrelevante
+
+Análisis de su_attempted. Irrelevante.
 ```{r EDA16, echo=TRUE}
 
 p <- data  %>%
@@ -330,11 +335,11 @@ p <- data  %>%
     geom_density(lwd=2)
 p
 
-ggplot(data, aes(su_attempted)) + geom_bar()+ ggtitle("Número de intentos de ejecución del comando 'sudo'")
-ggplot(data, aes(su_attempted,fill=class))+ geom_bar()+ ggtitle("Anomalías por número de intentos de ejecución del comando 'sudo'")
+ggplot(data, aes(su_attempted)) + geom_bar()
+ggplot(data, aes(su_attempted,fill=class))+ geom_bar()
 ```
 
-Análisis de num_root.Irrelevante
+Análisis de num_root. Irrelevante.
 ```{r EDA17, echo=TRUE}
 
 p <- data %>% mutate(log10_num_root = log10(num_root+0.5)) %>%
@@ -354,7 +359,7 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(num_root+0.5), color = class)
 p2
 ```
 
-Análisis de num_file_creations. Irrelevante
+Análisis de num_file_creations. Irrelevante.
 ```{r EDA18, echo=TRUE}
 
 p <- data %>% mutate(log10_num_file_creations = log10(num_file_creations+0.5)) %>%
@@ -374,7 +379,7 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(num_file_creations+0.5), colo
 p2
 ```
 
-Análisis de num_shells. Irrelevante
+Análisis de num_shells. Irrelevante.
 ```{r EDA19, echo=TRUE}
 
 p <- data %>%
@@ -394,7 +399,7 @@ p2 <- ggplot(data = data, aes(x = class, y = num_shells, color = class)) +
 p2
 ```
 
-Análisis de num_access_files. Irrelevante
+Análisis de num_access_files. Irrelevante.
 ```{r EDA20, echo=TRUE}
 
 p <- data %>%
@@ -414,7 +419,7 @@ p2 <- ggplot(data = data, aes(x = class, y = num_access_files, color = class)) +
 p2
 ```
 
-Análisis de num_outbound_cmds. Irrelevante
+Análisis de num_outbound_cmds. Irrelevante.
 ```{r EDA21, echo=TRUE}
 
 p <- data  %>%
@@ -434,7 +439,7 @@ p2 <- ggplot(data = data, aes(x = class, y = num_outbound_cmds, color = class)) 
 p2
 ```
 
-Análisis de is_host_login. Irrelevante
+Análisis de is_host_login. Irrelevante.
 ```{r EDA22, echo=TRUE}
 
 p <- data  %>%
@@ -454,7 +459,7 @@ p2 <- ggplot(data = data, aes(x = class, y = is_host_login, color = class)) +
 p2
 ```
 
-Análisis de is_guest_login. Irrelevante
+Análisis de is_guest_login. Irrelevante.
 ```{r EDA23, echo=TRUE}
 
 p <- data  %>%
@@ -474,7 +479,7 @@ p2 <- ggplot(data = data, aes(x = class, y = is_guest_login, color = class)) +
 p2
 ```
 
-Análisis de count. Relevante
+Análisis de count. Relevante.
 ```{r EDA24, echo=TRUE}
 
 p <- data %>% mutate(log10_count = log10(count+0.5)) %>%
@@ -554,7 +559,7 @@ p2 <- ggplot(data = data, aes(x = class, y = srv_serror_rate, color = class)) +
 p2
 ```
 
-Análisis de rerror_rate. Parece relevante
+Análisis de rerror_rate. Parece relevante.
 ```{r EDA28, echo=TRUE}
 
 p <- data %>% mutate(log10_rerror_rate = log10(rerror_rate+0.5)) %>%
@@ -574,7 +579,7 @@ p2 <- ggplot(data = data, aes(x = class, y = log10(rerror_rate+0.5), color = cla
 p2
 ```
 
-Análisis de srv_rerror_rate. Podría ser relevante
+Análisis de srv_rerror_rate. Podría ser relevante.
 ```{r EDA29, echo=TRUE}
 
 p <- data %>%
@@ -594,7 +599,7 @@ p2 <- ggplot(data = data, aes(x = class, y = srv_rerror_rate, color = class)) +
 p2
 ```
 
-Análisis de same_srv_rate. Relevante
+Análisis de same_srv_rate. Relevante.
 ```{r EDA30, echo=TRUE}
 
 p <- data %>% mutate(log10_same_srv_rate = log10(same_srv_rate+0.5)) %>%
@@ -672,7 +677,7 @@ p2 <- ggplot(data = data, aes(x = class, y = dst_host_count, color = class)) +
 p2
 ```
 
-Análisis de dst_host_srv_count. Relevante
+Análisis de dst_host_srv_count. Relevante.
 ```{r EDA34, echo=TRUE}
 
 p <- data  %>%
@@ -730,7 +735,7 @@ p2 <- ggplot(data = data, aes(x = class, y = dst_host_diff_srv_rate, color = cla
 p2
 ```
 
-Análisis de dst_host_same_src_port_rate. Podría ser relevante
+Análisis de dst_host_same_src_port_rate. Podría ser relevante.
 ```{r EDA37, echo=TRUE}
 
 p <- data  %>%
@@ -749,7 +754,7 @@ p2 <- ggplot(data = data, aes(x = class, y = dst_host_same_src_port_rate, color 
 p2
 ```
 
-Análisis de dst_host_srv_diff_host_rate. Relevante
+Análisis de dst_host_srv_diff_host_rate. Relevante.
 ```{r EDA38, echo=TRUE}
 
 p <- data %>%
@@ -789,7 +794,7 @@ p2 <- ggplot(data = data, aes(x = class, y = dst_host_serror_rate, color = class
 p2
 ```
 
-Análisis de dst_host_srv_serror_rate. Relevante
+Análisis de dst_host_srv_serror_rate. Relevante.
 ```{r EDA40, echo=TRUE}
 
 p <- data %>%
