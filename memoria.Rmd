@@ -1,7 +1,9 @@
 ---
 title: "Módulo IV. Aprendizaje Automático"
 subtitle: "Práctica"
-author: "DSLAB"
+author: 
+  -Alfonso Zarco Mármol
+  -Sergio Díaz Arias
 date: "`r format(Sys.Date(), '%d de %B de %Y')`"
 output:
   bookdown::html_document2:
