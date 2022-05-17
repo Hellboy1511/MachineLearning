@@ -1,10 +1,11 @@
 ---
-title: "Módulo IV. Aprendizaje Automático"
-subtitle: "Práctica"
+title: "Práctica Módulo IV"
 author: 
   -Alfonso Zarco Mármol
+  <br />
   -Sergio Díaz Arias
 date: "`r format(Sys.Date(), '%d de %B de %Y')`"
+
 output:
   bookdown::html_document2:
     toc: true  # Incluye tabla de contenidos automática
@@ -25,7 +26,11 @@ output:
                        # en cada chunk
 link-citations: yes  # Enlaces a entradas de bibliografía al final
 ---
-
+Asignatura: Inteligencia Artifical
+<br />
+Curso: 2021-2022
+<br />
+Titulación: Ingeniería de la ciberseguridad
 
 # Introducción
 
